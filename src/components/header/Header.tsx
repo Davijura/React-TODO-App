@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { AppBar, IconButton, Stack, Toolbar, Typography, useTheme } from '@mui/material'
+import { AppBar, IconButton, Stack, Toolbar, Typography } from '@mui/material'
+import { useTheme } from '@mui/system';
 import BuildIcon from '@mui/icons-material/Build'
 import { useAppDispatch } from '@/redux/store'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
@@ -7,6 +8,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { useNavigate } from 'react-router-dom'
 import { AccountCircle } from '@mui/icons-material'
 import { ThemeSwitchContext } from '@/theme/theme'
+import { Link } from 'react-router-dom'; // Importování komponenty Link
 
 export const Header = () => {
     const themeMaterial = useTheme()
@@ -23,9 +25,6 @@ export const Header = () => {
             >
                 <Stack direction={`row`} spacing={3} alignItems={`center`}>
                     <BuildIcon />
-                    <Typography variant={'h6'} component={'div'}>
-                        Hello appbar
-                    </Typography>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -37,10 +36,20 @@ export const Header = () => {
                         <AccountCircle />
                     </IconButton>
                 </Stack>
-                {themeMaterial.palette.mode} mode
-                <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
-                    {themeMaterial.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                </IconButton>
+                <Stack direction={`row`} alignItems={`center`} gap={5}>
+                    {/* Odkazy s komponentou Link */}
+                    <Typography variant={'h6'} component={'div'}>
+                        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>Todo App</Link>
+                    </Typography>
+                    <Typography variant={'h6'} component={'div'} color="#ffcb05">
+                        <Link to="/pokemon" style={{ textDecoration: 'none', color: '#ffcb05' }}>Pokemons</Link>
+                    </Typography>
+                </Stack>
+                <Stack direction={`row`} alignItems={`center`}>
+                    <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+                        {themeMaterial.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                    </IconButton>
+                </Stack>
             </Toolbar>
         </AppBar>
     )

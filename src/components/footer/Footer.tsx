@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { Box, Container, Grid, Typography } from '@mui/material'
 
 export const Footer = (): ReactElement => {
@@ -7,7 +7,7 @@ export const Footer = (): ReactElement => {
             sx={{
                 width: '100%',
                 height: 'auto',
-                backgroundColor: 'secondary.main',
+                backgroundColor: 'blue',
                 paddingTop: '1rem',
                 paddingBottom: '1rem',
                 marginTop: 'auto',
