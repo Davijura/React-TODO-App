@@ -24,7 +24,7 @@ const initialState: TodosState = {
 
 const timestampToString = (timestamp: Timestamp) => timestamp.toDate().toISOString();
 
-// Asynchronní akce pro načtení todos z Firestore
+// Asynchronous action to fetch todos from Firestore
 export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
   const todoCollection = collection(projectFirestore, 'todos');
   const todoSnapshot = await getDocs(todoCollection);
@@ -38,14 +38,11 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
   }) as TodoType[];
 });
 
-// Asynchronní akce pro přidání todo do Firestore
-export const createTodo = createAsyncThunk('todos/createTodo', async (todo: { name: string; description: string }) => {
+// Asynchronous action to add a todo to Firestore
+export const createTodo = createAsyncThunk('todos/createTodo', async (todo: { name: string; description: string; time: string | null }) => {
   const todosCollection = collection(projectFirestore, 'todos');
-  const docRef = await addDoc(todosCollection, {
-    ...todo,
-    time: new Date().toISOString(),
-  });
-  return { id: docRef.id, ...todo, time: new Date().toISOString() } as TodoType;
+  const docRef = await addDoc(todosCollection, todo);
+  return { id: docRef.id, ...todo } as TodoType;
 });
 
 const todosSlice = createSlice({

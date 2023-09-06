@@ -12,6 +12,8 @@
     "lint-fix": "eslint 'src/**/*.{ts,tsx}' --fix"
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.17.0",
+    "@date-io/dayjs": "^2.17.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
@@ -19,11 +21,12 @@
     "@mui/lab": "^5.0.0-alpha.118",
     "@mui/material": "^5.11.8",
     "@mui/styled-engine-sc": "^5.11.0",
+    "@mui/x-date-pickers": "^6.12.1",
     "@nivo/pie": "^0.80.0",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
-    "date-fns": "^2.29.3",
-    "dayjs": "^1.11.5",
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "firebase": "^10.3.1",
     "formik": "^2.2.9",
     "i18next": "^21.9.1",

@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowForwardIos } from '@mui/icons-material';
 import { Container, Typography, Grid, Button, Box, CircularProgress } from '@mui/material';
 import usePokemon from '@/hooks/usePokemon';
-import PokemonCard from './PokemonCard';
+import PokemonItem from './PokemonItem';
 
 const PokemonList: React.FC = () => {
     const { pokemons, nextUrl, loadMore: loadMorePokemons, loading, loadingMore } = usePokemon('https://pokeapi.co/api/v2/pokemon?limit=20');
@@ -26,7 +26,7 @@ const PokemonList: React.FC = () => {
                     <Grid container justifyContent="center" spacing={2}>
                         {pokemons.map(pokemon => (
                             <Grid item key={pokemon.name} xs={12} sm={6} md={4}>
-                                <PokemonCard
+                                <PokemonItem
                                     name={capitalizeFirstLetter(pokemon.name)}
                                     id={pokemon.id}
                                     types={pokemon.types.map(t => t.type.name)}

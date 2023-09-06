@@ -17,46 +17,46 @@ type PokemonDetailType = {
 }
 
 const usePokemon = (initialUrl: string) => {
-    const [pokemons, setPokemons] = useState<PokemonDetailType[]>([]);
-    const [nextUrl, setNextUrl] = useState<string | null>(initialUrl);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [loadingMore, setLoadingMore] = useState<boolean>(false);
+    const [pokemons, setPokemons] = useState<PokemonDetailType[]>([])
+    const [nextUrl, setNextUrl] = useState<string | null>(initialUrl)
+    const [loading, setLoading] = useState<boolean>(true)
+    const [loadingMore, setLoadingMore] = useState<boolean>(false)
 
     const fetchPokemons = async (url: string) => {
         try {
-            const response = await axios.get(url);
-            const data = response.data.results;
+            const response = await axios.get(url)
+            const data = response.data.results
 
-            const pokemonData: PokemonDetailType[] = [];
+            const pokemonData: PokemonDetailType[] = []
 
             for (let pokemon of data) {
-                const detailsResponse = await axios.get<PokemonDetailType>(pokemon.url);
-                pokemonData.push(detailsResponse.data);
+                const detailsResponse = await axios.get<PokemonDetailType>(pokemon.url)
+                pokemonData.push(detailsResponse.data)
             }
 
-            setPokemons((prev) => [...prev, ...pokemonData]);
-            setNextUrl(response.data.next);
+            setPokemons((prev) => [...prev, ...pokemonData])
+            setNextUrl(response.data.next)
         } catch (error) {
-            console.error('Error fetching Pokémon details:', error);
+            console.error('Error fetching Pokémon details:', error)
         } finally {
-            setLoading(false);
-            setLoadingMore(false);
+            setLoading(false)
+            setLoadingMore(false)
         }
-    };
+    }
 
     const loadMorePokemons = () => {
         if (nextUrl) {
-            setLoadingMore(true);
-            fetchPokemons(nextUrl);
+            setLoadingMore(true)
+            fetchPokemons(nextUrl)
         }
-    };
+    }
 
     // Initial fetch
     if (loading && !loadingMore) {
-        fetchPokemons(initialUrl);
+        fetchPokemons(initialUrl)
     }
 
-    return { pokemons, nextUrl, loading, loadingMore, loadMore: loadMorePokemons };
+    return { pokemons, nextUrl, loading, loadingMore, loadMore: loadMorePokemons }
 }
 
-export default usePokemon;
+export default usePokemon

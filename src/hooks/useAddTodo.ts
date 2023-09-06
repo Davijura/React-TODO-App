@@ -1,22 +1,25 @@
 import { useState } from 'react'
 import { useAppDispatch } from '@/redux/store'
 import { createTodo } from '@/redux/todosSlices'
-import { serverTimestamp } from 'firebase/firestore'
+import React from 'react'
+import dayjs from 'dayjs'
 
 const useAddTodo = () => {
     const dispatch = useAppDispatch()
+
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success')
+    const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(null)
 
     const addTodo = async () => {
         try {
             const newTodo = {
                 name,
                 description,
-                time: serverTimestamp(),
+                time: selectedDate ? selectedDate.format('YYYY-MM-DD HH:mm:ss') : null,
             }
             await dispatch(createTodo(newTodo))
             setSnackbarMessage('Todo successfully created!')
@@ -46,6 +49,8 @@ const useAddTodo = () => {
         snackbarMessage,
         snackbarSeverity,
         closeSnackbar,
+        selectedDate,
+        setSelectedDate,
     }
 }
 

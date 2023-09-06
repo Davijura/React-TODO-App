@@ -1,16 +1,21 @@
-import { Alert, Box, Button, Card, CardContent, Container, Snackbar, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, Container, Snackbar, TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import useAddTodo from '@/hooks/useAddTodo';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTodos } from '@/redux/todosSlices';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/store';;
+import dayjs from 'dayjs';
+
 import React from 'react';
 
 export default function TodoList() {
-    const { name, setName, description, setDescription, addTodo, isSnackbarOpen, snackbarMessage, snackbarSeverity, closeSnackbar } = useAddTodo();
+    const { name, setName, description, setDescription, addTodo, isSnackbarOpen, snackbarMessage, snackbarSeverity, closeSnackbar, selectedDate, setSelectedDate } = useAddTodo();
     const todos = useSelector((state: RootState) => state.todos);
     const dispatch = useDispatch();
 
-    const addTodoWithFeedback = async () =>  {
+    const addTodoWithFeedback = async () => {
         try {
             await addTodo();
         } catch (error) {
@@ -27,13 +32,7 @@ export default function TodoList() {
             <Box mt={5} display='flex' flexDirection='column' alignItems='center'>
                 <Card sx={{ minWidth: { xs: '100%', sm: 450 } }}>
                     <CardContent>
-                        <Typography
-                            sx={{ fontSize: 14, textAlign: 'center' }}
-                            color="text.secondary"
-                            gutterBottom
-                        >
-                            Todo App
-                        </Typography>
+
 
                         <Box
                             display="flex"
@@ -56,6 +55,16 @@ export default function TodoList() {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    label="Select Date and Time"
+                                    value={selectedDate}
+                                    onChange={(date: dayjs.Dayjs | null) => {
+                                        setSelectedDate(date);
+                                     }}
+
+                                />
+                            </LocalizationProvider>
                             <Button variant="contained" onClick={addTodoWithFeedback}>Add new todo!</Button>
                         </Box>
                     </CardContent>

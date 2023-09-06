@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore'
 import { projectFirestore } from '@/firebase/config'
 
-type TodoType = {
+export type TodoType = {
     id: string
     name: string
     description: string

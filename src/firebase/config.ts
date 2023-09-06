@@ -1,16 +1,16 @@
-import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyD4m7Fi52aRAzAtX05X2_uOeEeS0Edh6Z0',
-    authDomain: 'todoapp-e2a17.firebaseapp.com',
-    projectId: 'todoapp-e2a17',
-    storageBucket: 'todoapp-e2a17.appspot.com',
-    messagingSenderId: '591850509454',
-    appId: '1:591850509454:web:0427c8daeaf1ec782425df',
-}
+    apiKey: import.meta.env.VITE_REACT_APP_API_KEY,
+    authDomain: import.meta.env.VITE_REACT_APP_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_REACT_APP_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_REACT_APP_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_REACT_APP_APP_ID,
+};
 
-const firebaseApp = initializeApp(firebaseConfig)
-const projectFirestore = getFirestore()
+const firebaseApp = initializeApp(firebaseConfig);
+const projectFirestore = getFirestore();
 
-export { projectFirestore }
+export { projectFirestore };

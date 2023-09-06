@@ -5,6 +5,7 @@ import { Box } from '@mui/material'
 import { Footer } from '@/components/footer/Footer'
 
 const PokemonPage = () => {
+
   return (
     <Box>
       <Header />
