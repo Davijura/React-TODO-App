@@ -11,10 +11,11 @@ import { ThemeSwitchContext } from '@/theme/theme'
 import { Link } from 'react-router-dom'; // Importování komponenty Link
 
 export const Header = () => {
-    const themeMaterial = useTheme()
-    const dispatch = useAppDispatch()
-    const { toggleColorMode } = useContext(ThemeSwitchContext)
-    const navigate = useNavigate()
+    const themeMaterial = useTheme();
+    const dispatch = useAppDispatch();
+    const { toggleColorMode } = useContext(ThemeSwitchContext);
+    const navigate = useNavigate();
+
     return (
         <AppBar position="static">
             <Toolbar
@@ -23,7 +24,7 @@ export const Header = () => {
                     alignItems: 'center',
                 }}
             >
-                <Stack direction={`row`} spacing={3} alignItems={`center`}>
+                <Stack direction={`row`} spacing={3} alignItems={`center`} sx={{ display: { xs: 'none', sm: 'flex' } }}>
                     <BuildIcon />
                     <IconButton
                         size="large"
@@ -37,7 +38,6 @@ export const Header = () => {
                     </IconButton>
                 </Stack>
                 <Stack direction={`row`} alignItems={`center`} gap={5}>
-                    {/* Odkazy s komponentou Link */}
                     <Typography variant={'h6'} component={'div'}>
                         <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>Todo App</Link>
                     </Typography>
