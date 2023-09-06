@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { projectFirestore } from '@/firebase/config';
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
+import { ReducerEnvelope } from "./envelope.interface"
 
 type TodoType = {
   id: string;
@@ -9,7 +10,18 @@ type TodoType = {
   time: string;
 };
 
-// Tuto funkci umístěte na začátek souboru za definicí typu TodoType
+type TodosState = ReducerEnvelope & {
+  data: TodoType[];
+};
+
+const initialState: TodosState = {
+  data: [],
+  isFetching: false,
+  error: null,
+  error_code: null,
+  status: 'ok',
+};
+
 const timestampToString = (timestamp: Timestamp) => timestamp.toDate().toISOString();
 
 // Asynchronní akce pro načtení todos z Firestore
@@ -31,21 +43,50 @@ export const createTodo = createAsyncThunk('todos/createTodo', async (todo: { na
   const todosCollection = collection(projectFirestore, 'todos');
   const docRef = await addDoc(todosCollection, {
     ...todo,
-    time: new Date().toISOString(),  // převedení na řetězec pro konzistenci
+    time: new Date().toISOString(),
   });
   return { id: docRef.id, ...todo, time: new Date().toISOString() } as TodoType;
 });
 
 const todosSlice = createSlice({
   name: 'todos',
-  initialState: [] as TodoType[],
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchTodos.fulfilled, (state, action: PayloadAction<TodoType[]>) => {
-      return action.payload;
+    builder.addCase(fetchTodos.pending, (state) => {
+      state.isFetching = true;
+      state.error = null;
+      state.error_code = null;
+      state.status = 'ok';
     });
+
+    builder.addCase(fetchTodos.fulfilled, (state, action: PayloadAction<TodoType[]>) => {
+      state.data = action.payload;
+      state.isFetching = false;
+    });
+
+    builder.addCase(fetchTodos.rejected, (state, action) => {
+      state.isFetching = false;
+      state.error = action.error.message;
+      state.status = 'fail';
+    });
+
+    builder.addCase(createTodo.pending, (state) => {
+      state.isFetching = true;
+      state.error = null;
+      state.error_code = null;
+      state.status = 'ok';
+    });
+
     builder.addCase(createTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
-      state.push(action.payload);
+      state.data.push(action.payload);
+      state.isFetching = false;
+    });
+
+    builder.addCase(createTodo.rejected, (state, action) => {
+      state.isFetching = false;
+      state.error = action.error.message;
+      state.status = 'fail';
     });
   },
 });

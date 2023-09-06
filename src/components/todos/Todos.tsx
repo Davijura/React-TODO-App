@@ -1,10 +1,10 @@
-import { Box, Card, CardContent, Container, Typography } from '@mui/material';
-import { Timestamp } from 'firebase/firestore';
+import { Alert, Box, Card, CardContent, Container, Snackbar, Typography } from '@mui/material';
 import useTodos from '@/hooks/useTodos';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import { Timestamp } from 'firebase/firestore';
 
 export default function Todos() {
-    const { todos, deleteTodo } = useTodos();
+    const { todos, deleteTodo, isSnackbarOpen, closeSnackbar } = useTodos();
 
     return (
         <Container maxWidth="md">
@@ -41,8 +41,18 @@ export default function Todos() {
                                         </Typography>
 
                                     </Box>
-                                    <Box display="flex" justifyContent="center" alignItems="center" flex="1" color="red">
-                                        <ClearOutlinedIcon cursor="pointer" fontSize="large" onClick={() => deleteTodo(todo.id)} />
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        flex="1"
+                                        color="red"
+                                    >
+                                        <ClearOutlinedIcon
+                                            cursor="pointer"
+                                            fontSize="large"
+                                            onClick={() => deleteTodo(todo.id)}
+                                        />
                                     </Box>
                                 </Box>
 
@@ -51,6 +61,17 @@ export default function Todos() {
                     </CardContent>
                 </Card>
             </Box>
+
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={2000}
+                onClose={closeSnackbar}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            >
+                <Alert onClose={closeSnackbar} severity="info" variant="filled">
+                    Todo has been removed!
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }

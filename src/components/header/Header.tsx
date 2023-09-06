@@ -8,7 +8,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { useNavigate } from 'react-router-dom'
 import { AccountCircle } from '@mui/icons-material'
 import { ThemeSwitchContext } from '@/theme/theme'
-import { Link } from 'react-router-dom'; // Importování komponenty Link
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
     const themeMaterial = useTheme();

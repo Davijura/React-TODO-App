@@ -1,25 +1,26 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react'
+import axios from 'axios'
 
 type PokemonType = {
-    name: string,
+    name: string
     url: string
-};
+}
 
 type PokemonDetailType = {
-    id: number;
-    name: string,
-    order: number,
-    types: Array<{ slot: number, type: { name: string } }>,
+    id: number
+    name: string
+    order: number
+    types: Array<{ slot: number; type: { name: string } }>
     sprites: {
         front_default: string
     }
-};
+}
 
 const usePokemon = (initialUrl: string) => {
     const [pokemons, setPokemons] = useState<PokemonDetailType[]>([]);
     const [nextUrl, setNextUrl] = useState<string | null>(initialUrl);
     const [loading, setLoading] = useState<boolean>(true);
+    const [loadingMore, setLoadingMore] = useState<boolean>(false);
 
     const fetchPokemons = async (url: string) => {
         try {
@@ -33,24 +34,29 @@ const usePokemon = (initialUrl: string) => {
                 pokemonData.push(detailsResponse.data);
             }
 
-            setPokemons(prev => [...prev, ...pokemonData]);
+            setPokemons((prev) => [...prev, ...pokemonData]);
             setNextUrl(response.data.next);
-
-            setLoading(false);
-
         } catch (error) {
-            console.error("Error fetching Pokémon details:", error);
+            console.error('Error fetching Pokémon details:', error);
+        } finally {
             setLoading(false);
+            setLoadingMore(false);
         }
     };
 
-    useEffect(() => {
+    const loadMorePokemons = () => {
         if (nextUrl) {
+            setLoadingMore(true);
             fetchPokemons(nextUrl);
         }
-    }, []);
+    };
 
-    return { pokemons, nextUrl, loading, fetchMore: fetchPokemons };
-};
+    // Initial fetch
+    if (loading && !loadingMore) {
+        fetchPokemons(initialUrl);
+    }
+
+    return { pokemons, nextUrl, loading, loadingMore, loadMore: loadMorePokemons };
+}
 
 export default usePokemon;

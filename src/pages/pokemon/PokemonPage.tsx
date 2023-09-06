@@ -5,7 +5,7 @@ import { Box } from '@mui/material'
 import { Footer } from '@/components/footer/Footer'
 
 const PokemonPage = () => {
-  console.log("Rendering PokemonPage"); // Kontrolní log
+  console.log("zdarec");
   return (
     <Box>
       <Header />

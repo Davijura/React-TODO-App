@@ -7,7 +7,6 @@ export const Footer = (): ReactElement => {
             sx={{
                 width: '100%',
                 height: 'auto',
-                backgroundColor: 'blue',
                 paddingTop: '1rem',
                 paddingBottom: '1rem',
                 marginTop: 'auto',
