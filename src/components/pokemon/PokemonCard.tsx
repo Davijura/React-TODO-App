@@ -12,11 +12,11 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ name, id, types, imageUrl }) 
     return (
         <Card variant="outlined" style={{ margin: '10px' }}>
             <CardContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography variant="h6" component="div" align='center'>
-                    {name}
-                </Typography>
                 <Typography variant="body1" component="div" align='center'>
                     #{id}
+                </Typography>
+                <Typography variant="h6" component="div" align='center'>
+                    {name}
                 </Typography>
                 <img
                     src={imageUrl}
