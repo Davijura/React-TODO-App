@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { projectFirestore } from '@/firebase/config'
-import { collection, addDoc } from 'firebase/firestore'
+import { useAppDispatch } from '@/redux/store'
+import { createTodo } from '@/redux/todosSlices'
+import { serverTimestamp } from 'firebase/firestore'
 
 const useAddTodo = () => {
+    const dispatch = useAppDispatch()
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
@@ -11,12 +13,12 @@ const useAddTodo = () => {
 
     const addTodo = async () => {
         try {
-            const todosCollection = collection(projectFirestore, 'todos')
-            await addDoc(todosCollection, {
+            const newTodo = {
                 name,
                 description,
-                time: new Date(),
-            })
+                time: serverTimestamp(),
+            }
+            await dispatch(createTodo(newTodo))
             setSnackbarMessage('Todo successfully created!')
             setSnackbarSeverity('success')
             setIsSnackbarOpen(true)

@@ -17,7 +17,10 @@ const useTodos = () => {
         const todoCollection = collection(projectFirestore, 'todos')
         const unsubscribe = onSnapshot(todoCollection, (snapshot) => {
             const todoList: TodoType[] = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TodoType))
-            setTodos(todoList)
+
+            const sortedTodos = todoList.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+
+            setTodos(sortedTodos)
         })
 
         return () => unsubscribe()

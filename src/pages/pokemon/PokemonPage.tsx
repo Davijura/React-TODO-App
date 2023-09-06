@@ -5,7 +5,6 @@ import { Box } from '@mui/material'
 import { Footer } from '@/components/footer/Footer'
 
 const PokemonPage = () => {
-  console.log("zdarec");
   return (
     <Box>
       <Header />

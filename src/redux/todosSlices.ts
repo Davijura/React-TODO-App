@@ -60,6 +60,11 @@ const todosSlice = createSlice({
       state.status = 'ok';
     });
 
+    builder.addCase(createTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
+      state.data = [action.payload, ...state.data];
+      state.isFetching = false;
+    });
+
     builder.addCase(fetchTodos.fulfilled, (state, action: PayloadAction<TodoType[]>) => {
       state.data = action.payload;
       state.isFetching = false;
@@ -76,11 +81,6 @@ const todosSlice = createSlice({
       state.error = null;
       state.error_code = null;
       state.status = 'ok';
-    });
-
-    builder.addCase(createTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
-      state.data.push(action.payload);
-      state.isFetching = false;
     });
 
     builder.addCase(createTodo.rejected, (state, action) => {

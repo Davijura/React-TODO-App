@@ -11,5 +11,5 @@ export interface IRoute {
 export const routePublic: IRoute[] = [
     { path: '/', element: Dashboard },
     { path: '/pokemon', element: PokemonPage },
-    { path: '*', element: ErrorPage }, // Zástupný znak by měl být vždy poslední
+    { path: '*', element: ErrorPage },
 ];

@@ -13,9 +13,18 @@ const Error = () => {
             justifyContent="center"
             marginTop="125px"
         >
-            <img src={pikachuSad} alt="sadPikachu" width="350px" height="350px" />
+            <img src={pikachuSad}
+                alt="sadPikachu"
+                width="350px"
+                height="350px"
+            />
             <h1>Error 404 Page Not Found</h1>
-            <Button variant="outlined" onClick={goBack}>Back</Button>
+            <Button
+                variant="outlined"
+                onClick={goBack}
+            >
+                Back
+            </Button>
         </Box>
     );
 }

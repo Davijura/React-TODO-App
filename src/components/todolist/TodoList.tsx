@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Card, CardContent, Container, Snackbar, TextField, Typography } from '@mui/material';
 import useAddTodo from '@/hooks/useAddTodo';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos, createTodo } from '@/redux/todosSlices';
+import { fetchTodos } from '@/redux/todosSlices';
 import { RootState } from '@/redux/store';
 import React from 'react';
 
@@ -10,11 +10,11 @@ export default function TodoList() {
     const todos = useSelector((state: RootState) => state.todos);
     const dispatch = useDispatch();
 
-    const addTodoWithFeedback = async () => {
+    const addTodoWithFeedback = async () =>  {
         try {
             await addTodo();
         } catch (error) {
-            // handle error as per your requirements
+            console.log("Error while creating new todo:", error);
         }
     };
 

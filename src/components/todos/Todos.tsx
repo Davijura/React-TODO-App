@@ -1,7 +1,6 @@
 import { Alert, Box, Card, CardContent, Container, Snackbar, Typography } from '@mui/material';
 import useTodos from '@/hooks/useTodos';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import { Timestamp } from 'firebase/firestore';
 
 export default function Todos() {
     const { todos, deleteTodo, isSnackbarOpen, closeSnackbar } = useTodos();
@@ -37,7 +36,7 @@ export default function Todos() {
                                         </Typography>
 
                                         <Typography component="h2">
-                                            Time: {todo.time instanceof Timestamp ? todo.time.toDate().toLocaleString() : ''}
+                                            Time: {todo.time ? new Date(todo.time).toLocaleString() : ''}
                                         </Typography>
 
                                     </Box>
@@ -68,7 +67,10 @@ export default function Todos() {
                 onClose={closeSnackbar}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-                <Alert onClose={closeSnackbar} severity="info" variant="filled">
+                <Alert
+                    onClose={closeSnackbar}
+                    severity="info"
+                    variant="filled">
                     Todo has been removed!
                 </Alert>
             </Snackbar>
