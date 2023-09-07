@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useAppDispatch } from '@/redux/store'
 import { createTodo } from '@/redux/todosSlices'
-import React from 'react'
 import dayjs from 'dayjs'
 
 const useAddTodo = () => {
@@ -9,12 +8,37 @@ const useAddTodo = () => {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
+    const [nameError, setNameError] = useState(false)
+    const [descriptionError, setDescriptionError] = useState(false)
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success')
-    const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(null)
+    const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(null)
 
     const addTodo = async () => {
+        let hasError = false
+
+        if (name.length < 2) {
+            setNameError(true)
+            hasError = true
+        } else {
+            setNameError(false)
+        }
+
+        if (description.length < 2) {
+            setDescriptionError(true)
+            hasError = true
+        } else {
+            setDescriptionError(false)
+        }
+
+        if (hasError) {
+            setSnackbarMessage('Name and Description must be at least 2 characters long.')
+            setSnackbarSeverity('error')
+            setIsSnackbarOpen(true)
+            return
+        }
+
         try {
             const newTodo = {
                 name,
@@ -44,6 +68,8 @@ const useAddTodo = () => {
         setName,
         description,
         setDescription,
+        nameError,
+        descriptionError,
         addTodo,
         isSnackbarOpen,
         snackbarMessage,

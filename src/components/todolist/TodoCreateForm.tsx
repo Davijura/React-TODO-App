@@ -5,13 +5,13 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import useAddTodo from '@/hooks/useAddTodo';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTodos } from '@/redux/todosSlices';
-import { RootState } from '@/redux/store';;
+import { RootState } from '@/redux/store';
 import dayjs from 'dayjs';
 
 import React from 'react';
 
 export default function TodoList() {
-    const { name, setName, description, setDescription, addTodo, isSnackbarOpen, snackbarMessage, snackbarSeverity, closeSnackbar, selectedDate, setSelectedDate } = useAddTodo();
+    const { name, setName, description, setDescription, nameError, descriptionError, addTodo, isSnackbarOpen, snackbarMessage, snackbarSeverity, closeSnackbar, selectedDate, setSelectedDate } = useAddTodo();
     const todos = useSelector((state: RootState) => state.todos);
     const dispatch = useDispatch();
 
@@ -32,13 +32,7 @@ export default function TodoList() {
             <Box mt={5} display='flex' flexDirection='column' alignItems='center'>
                 <Card sx={{ minWidth: { xs: '100%', sm: 450 } }}>
                     <CardContent>
-
-
-                        <Box
-                            display="flex"
-                            flexDirection="column"
-                            gap={2}
-                        >
+                        <Box display="flex" flexDirection="column" gap={2}>
                             <TextField
                                 fullWidth
                                 id="outlined-todo"
@@ -46,6 +40,8 @@ export default function TodoList() {
                                 variant="outlined"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                error={nameError}
+                                helperText={nameError ? "Name must be at least 2 characters." : ""}
                             />
                             <TextField
                                 fullWidth
@@ -54,6 +50,8 @@ export default function TodoList() {
                                 variant="outlined"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                error={descriptionError}
+                                helperText={descriptionError ? "Description must be at least 2 characters." : ""}
                             />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
@@ -61,8 +59,7 @@ export default function TodoList() {
                                     value={selectedDate}
                                     onChange={(date: dayjs.Dayjs | null) => {
                                         setSelectedDate(date);
-                                     }}
-
+                                    }}
                                 />
                             </LocalizationProvider>
                             <Button variant="contained" onClick={addTodoWithFeedback}>Add new todo!</Button>
